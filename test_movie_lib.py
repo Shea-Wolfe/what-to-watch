@@ -29,6 +29,15 @@ def test_rating_creation():
     assert rating2.score == 5 and rating2.user == 1 and rating2.movie == 20
     assert rating3.score == 4 and rating4.score == 5 == rating2.score
 
+def test_movie_rating():
+    assert movie1.ratings == {1:3,2:4}
+    assert movie2.ratings == {1:5,2:5}
+
+def test_user_ratings():
+    assert will.ratings == {15:3, 20:5}
+    assert steve.ratings == {15:4, 20:5}
+
+
 # def test_get_rating():
 #     #Should return a list of Rating objects
 #     assert movie.get_rating() == [3]

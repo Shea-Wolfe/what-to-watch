@@ -15,6 +15,11 @@ def test_movie_creation():
     assert movie2.id == 20 and movie2.title == 'Brick'
     assert movie1.id != movie2.id
 
+def test_user_list():
+    assert all_users == {1:User(1),2:User(2)}
+def test_movie_list():
+    assert all_movies == {15:Movie(15, 'The Matrix'), 20:Movie(20, 'Brick')}
+
 
 # def test_get_rating():
 #     #Should return a list of Rating objects

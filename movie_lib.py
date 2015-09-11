@@ -1,4 +1,4 @@
-class Movie():
+class Movie:
 
     def __init__(self, movie_id):
         self.movie_id = movie_id
@@ -26,10 +26,17 @@ class Rating:
         self.user_id = user_id
         self.movie_id = movie_id
 
-class User():
 
-    def __init__(self, rating, user_id):
-        (rating, user_id)
+
+class User:
+
+    def __init__(self, user_id):
+        self.user_id = user_id
 
     def get_user_ratings(self):
         '''takes a user_id and returns all the ratings done by that user'''
+        user_ratings = []
+        for rating in ratings_list:
+            if rating[0] == self.user_id:
+            user_ratings.append[rating[1],rating[2]]
+        return user_ratings

@@ -1,39 +1,51 @@
+all_movies = {}}
+all_users = {}
 class Movie:
 
-    def __init__(self, movie_id):
+    def __init__(self, movie_id, title):
         self.movie_id = movie_id
+        self.title = title
+        all_movies[self.id] = self
+        self.ratings = {} #key: user_id, value: Rating objects
 
+    def add_rating(self, rating): #rating is an instance of CLASS rating.
+        return self.ratings[rating.user_id] = rating.score
 
-    def get_rating(self):
-        '''Should be able to take a movie_id and return the ratings'''
-        ratings_list = [['Will', 42, 3],['Steve', 47, 5]]
-        movie_ratings = []
-        for rating in ratings_list:
-            if rating[1] == self.movie_id:
-                movie_ratings.append(rating[2])
-        return movie_ratings
+    def __str__(self):
+        return 'Movie(movie_id={}, title={})'.format(self.id, __repr__(self.title))
 
-    def get_average_rating(self):
-        '''Takes a movie id and returns the average of all the ratings'''
-        return sum(self.get_rating())/len(self.get_rating())
+    def __repr__(self):
+        return self.__str__
+
+    # def get_rating(self):
+    #
+    #
+    # def get_average_rating(self):
+    #     '''Takes a movie id and returns the average of all the ratings'''
 
     def get_movie_title(self):
         '''Takes a movie_id and returns the movie title.'''
-        movie_list = {42: "Star Wars", 47: 'Star Trek'}
-        return movie_list[self.movie_id]
+        return self.title
 class Rating:
 
-    def __init__(self,user_id, movie_id, rating):
-        self.rating = rating
-        self.user_id = user_id
-        self.movie_id = movie_id
+    def __init__(self,user, movie, score):
+        self.score = score
+        self.user = user
+        self.movie = movie
+        all_movies[self.movie].add_rating(self)
 
+    def __str__(self):
+        return 'Rating(user={}, movie={}, score={})'.format(self.user, self.movie, self.score))
+
+    def __repr__(self):
+        return self.__str__
 
 
 class User:
 
     def __init__(self, user_id):
         self.user_id = user_id
+        all_users[self.id] = self
 
     def get_user_ratings(self):
         '''takes a user_id and returns all the ratings done by that user'''

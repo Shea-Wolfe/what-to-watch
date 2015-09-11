@@ -10,7 +10,10 @@ def test_user_creation():
     assert steve.id == 2
     assert will.id != steve.id
 
-
+def test_movie_creation():
+    assert movie1.id == 15 and movie1.title == 'The Matrix'
+    assert movie2.id == 20 and movie2.title == 'Brick'
+    assert movie1.id != movie2.id
 
 
 # def test_get_rating():

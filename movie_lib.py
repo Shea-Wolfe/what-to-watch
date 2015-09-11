@@ -20,7 +20,7 @@ class Movie:
         return self.__str__()
 
     def get_movie_ratings(self):
-        return sorted(self.ratings.values())
+        return sorted(self.ratings.values(),reverse=True)
 
     def get_average_rating(self):
         '''Takes a movie id and returns the average of all the ratings'''
@@ -66,3 +66,8 @@ with open('u.user') as f:
     reader = csv.DictReader(f, fieldnames=['user_id'], delimiter='|')
     for row in reader:
         User(int(row['user_id']))
+
+with open('u.data') as f:
+    reader = csv.DictReader(f, fieldnames=['user_id', 'movie_id', 'rating'], delimiter='\t')
+    for row in reader:
+        Rating(int(row['user_id']), int(row['movie_id']), int(row['rating']))

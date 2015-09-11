@@ -14,7 +14,7 @@ class Movie:
         self.ratings[rating.user] = rating.score
 
     def __str__(self):
-        return 'movie_id={}, title={}'.format(self.id, self.title)
+        return 'Movie({}, {})'.format(self.id, repr(self.title))
 
     def __repr__(self):
         return self.__str__()
@@ -61,5 +61,8 @@ class User:
 with open('u.item', encoding='latin_1') as f:
     reader = csv.DictReader(f, fieldnames=['movie_id', 'movie_title'], delimiter='|')
     for row in reader:
-        Movie(row['movie_id'], row['movie_title'])
-print(all_movies)
+        Movie(int(row['movie_id']), row['movie_title'])
+with open('u.user') as f:
+    reader = csv.DictReader(f, fieldnames=['user_id'], delimiter='|')
+    for row in reader:
+        User(int(row['user_id']))

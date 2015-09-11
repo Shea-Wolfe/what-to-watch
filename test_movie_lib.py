@@ -38,15 +38,16 @@ def test_user_ratings():
     assert steve.ratings == {15:4, 20:5}
 
 
-# def test_get_rating():
-#     #Should return a list of Rating objects
-#     assert movie.get_rating() == [3]
-#
-# def test_get_average_rating():
-#     assert movie.get_average_rating() == 3
-#
-# def test_get_movie_title():
-#     assert movie.get_movie_title() == 'Star Wars'
-#
-# def test_get_user_ratings():
-#     assert will.get_user_ratings() == [[42,3]]
+def test_get_rating():
+    #Should return a list of Rating objects
+    assert movie1.get_movie_ratings() == [3,4]
+    assert movie2.get_movie_ratings() == [5,5]
+
+def test_get_average_rating():
+    assert movie1.get_average_rating() == 3.5
+
+def test_get_movie_title():
+    assert movie1.get_movie_title() == 'The Matrix'
+
+def test_get_user_ratings():
+    assert will.get_user_ratings() == {15:3,20:5}

@@ -1,5 +1,7 @@
+import csv
 all_movies = {}
 all_users = {}
+
 class Movie:
 
     def __init__(self, movie_id, title):
@@ -12,34 +14,35 @@ class Movie:
         self.ratings[rating.user] = rating.score
 
     def __str__(self):
-        return 'Movie(movie_id={}, title={})'.format(self.id, __repr__(self.title))
+        return 'movie_id={}, title={}'.format(self.id, self.title)
 
     def __repr__(self):
-        return self.__str__
+        return self.__str__()
 
-    # def get_rating(self):
-    #
-    #
-    # def get_average_rating(self):
-    #     '''Takes a movie id and returns the average of all the ratings'''
+    def get_movie_ratings(self):
+        return sorted(self.ratings.values())
+
+    def get_average_rating(self):
+        '''Takes a movie id and returns the average of all the ratings'''
+        return sum(self.get_movie_ratings())/len(self.get_movie_ratings())
 
     def get_movie_title(self):
         '''Takes a movie_id and returns the movie title.'''
-        return self.title
-# class Rating:
-#
-#     def __init__(self,user, movie, score):
-#         self.score = score
-#         self.user = user
-#         self.movie = movie
-#         all_movies[self.movie].add_rating(self)
-#         all_users[self.user].add_user_rating(self)
-#
-#     def __str__(self):
-#         return 'Rating(user={}, movie={}, score={})'.format(self.user, self.movie, self.score))
-#
-#     def __repr__(self):
-#         return self.__str__
+        return all_movies[self.id].title
+class Rating:
+
+    def __init__(self,user, movie, score):
+        self.score = score
+        self.user = user
+        self.movie = movie
+        all_movies[self.movie].add_rating(self)
+        all_users[self.user].add_user_rating(self)
+
+    # def __str__(self):
+    #     return 'Rating(user={}, movie={}, score={})'.format(self.user, self.movie, self.score)
+    #
+    # def __repr__(self):
+    #     return self.__str__
 
 
 class User:
@@ -52,12 +55,11 @@ class User:
     def add_user_rating(self, rating): #Rating is an instance of the CLASS rating
         self.ratings[rating.movie] = rating.score
 
+    def get_user_ratings(self):
+        return self.ratings
 
-    # def get_user_ratings(self):
-    #     '''takes a user_id and returns all the ratings done by that user'''
-    #     user_ratings = []
-    #     ratings_list = [['Will', 42, 3],['Steve', 47, 5]]
-    #     for rating in ratings_list:
-    #         if rating[0] == self.user_id:
-    #             user_ratings.append([rating[1],rating[2]])
-    #     return user_ratings
+with open('u.item', encoding='latin_1') as f:
+    reader = csv.DictReader(f, fieldnames=['movie_id', 'movie_title'], delimiter='|')
+    for row in reader:
+        Movie(row['movie_id'], row['movie_title'])
+print(all_movies)

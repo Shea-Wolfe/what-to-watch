@@ -71,3 +71,10 @@ with open('u.data') as f:
     reader = csv.DictReader(f, fieldnames=['user_id', 'movie_id', 'rating'], delimiter='\t')
     for row in reader:
         Rating(int(row['user_id']), int(row['movie_id']), int(row['rating']))
+def get_top_50(all_movies):
+    top_movies = {}
+    for key in all_movies:
+        if len(all_movies[key].get_movie_ratings()) > 10:
+            top_movies[key] = all_movies[key].get_average_rating()
+    top_movies = sorted(top_movies.items(), key=lambda c: c[1], reverse=True)
+    print(top_movies[:50])

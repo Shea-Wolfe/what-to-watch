@@ -115,14 +115,30 @@ def compare_users(user1, user2, all_users=all_users):
         if key in all_users[user2].ratings:
             user1_scores.append(all_users[user1].ratings[key])
             user2_scores.append(all_users[user2].ratings[key])
-    print(euclidean_distance(user1_scores,user2_scores))
+    if len(user1_scores) < 10:
+        return 0
+    return euclidean_distance(user1_scores,user2_scores)
 
+
+def find_similar_user(user1, all_users=all_users):
+    sim = 0
+    for user in all_users:
+        if user1 == user:
+            pass
+        elif compare_users(user1, user) > sim:
+            sim = compare_users(user1, user)
+            store_user = user
+    print(store_user, sim)
 def main():
     print('Loading data.  Please hold.')
     get_items()
     get_users()
     get_data()
-
+    find_similar_user(37)
+    find_similar_user(38)
+    find_similar_user(101)
+    find_similar_user(1)
+    find_similar_user(69)
 
 if __name__ == '__main__':
     main()

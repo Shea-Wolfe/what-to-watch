@@ -87,3 +87,12 @@ def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
     for key in all_users[user].ratings:
         del safe_dict[key]
     get_top_50(safe_dict)
+
+def compare_users(user1, user2, all_users=all_users):
+    user1_scores = []
+    user2_scores = []
+    for key in all_users[user1].ratings:
+        if key in all_users[user2].ratings:
+            user1_scores.append(all_users[user1].ratings[key])
+            user2_scores.append(all_users[user2].ratings[key])
+compare_users(5,6)

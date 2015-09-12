@@ -1,5 +1,6 @@
 import csv
 import math
+from random import randint
 all_movies = {}
 all_users = {}
 
@@ -77,21 +78,20 @@ def get_data():
         for row in reader:
             Rating(int(row['user_id']), int(row['movie_id']), int(row['rating']))
 
-def get_top_50(all_movies=all_movies):
+def get_top_x(num=50, all_movies=all_movies):
     top_movies = {}
     for key in all_movies:
         if len(all_movies[key].get_movie_ratings()) > 10:
             top_movies[key] = all_movies[key].get_average_rating()
     top_movies = sorted(top_movies.items(), key=lambda c: c[1], reverse=True)
-    print(top_movies[:50])
-
+    return top_movies[:num]
 
 
 def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
     safe_dict = all_movies.copy()
     for key in all_users[user].ratings:
         del safe_dict[key]
-    get_top_50(safe_dict)
+    print(get_top_x(50,safe_dict))
 
 
 def euclidean_distance(v, w): #Formula copied from James Allen
@@ -119,7 +119,7 @@ def compare_users(user1, user2, all_users=all_users):
         return 0
     return euclidean_distance(user1_scores,user2_scores)
 
-def get_unshared_movies(p_user, s_user, all_movies=all_movies):
+def get_unshared_movies(p_user, s_user, all_users=all_users):
     '''takes a primary user and a secondary user.  Returns a list of movies that
     the secondary user has seen but the primary user hasn't'''
     s_user_list = []
@@ -129,7 +129,7 @@ def get_unshared_movies(p_user, s_user, all_movies=all_movies):
     return s_user_list
 
 
-def find_similar_user(user1, all_users=all_users):
+def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
     sim = 0
     for user in all_users:
         if user1 == user:
@@ -138,14 +138,22 @@ def find_similar_user(user1, all_users=all_users):
             sim = compare_users(user1, user)
             store_user = user
     suggestion_list = get_unshared_movies(store_user, user1)
-    print(store_user, sim, suggestion_list)
+    movie_suggested = get_top_from_list(suggestion_list)
+    return all_movies[movie_suggested[randint(0,4)][0]].title
+
+
+
+def get_top_from_list(movies, all_movies=all_movies):
+    movie_dict = {}
+    for item in movies:
+        movie_dict[item] = all_movies[item]
+    return get_top_x(5, movie_dict)
 
 def main():
     print('Loading data.  Please hold.')
     get_items()
     get_users()
     get_data()
-
 
 if __name__ == '__main__':
     main()

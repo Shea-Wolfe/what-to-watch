@@ -91,7 +91,8 @@ def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
     safe_dict = all_movies.copy()
     for key in all_users[user].ratings:
         del safe_dict[key]
-    print(get_top_x(50,safe_dict))
+    movie_suggested = get_top_x(5, safe_dict)
+    return all_movies[movie_suggested[randint(0,4)][0]].title
 
 def euclidean_distance(v, w): #Formula copied from James Allen
     """Given two lists, give the Euclidean distance between them on a scale
@@ -118,14 +119,15 @@ def compare_users(user1, user2, all_users=all_users):
         return 0
     return euclidean_distance(user1_scores,user2_scores)
 
-def get_unshared_movies(p_user, s_user, all_users=all_users):
+def get_unshared_movies(p_user, s_user, all_users=all_users, all_movies=all_movies):
     '''takes a primary user and a secondary user.  Returns a list of movies that
     the secondary user has seen but the primary user hasn't'''
     s_user_list = []
+    s_user_movie_dict = {}
     for key in all_users[s_user].ratings:
         if key not in all_users[p_user].ratings:
-            s_user_list.append(key)
-    return s_user_list
+            s_user_movie_dict[key] = all_movies[key]
+    return s_user_movie_dict
 
 def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
     '''Currently doesn't consider the chosen users taste.  Update that dummy!'''
@@ -137,22 +139,15 @@ def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
             sim = compare_users(user1, user)
             store_user = user
     suggestion_list = get_unshared_movies(store_user, user1)
-    movie_suggested = get_top_from_list(suggestion_list)
+    movie_suggested = get_top_x(5, suggestion_list)
     return all_movies[movie_suggested[randint(0,4)][0]].title
 
-
-
-def get_top_from_list(movies, all_movies=all_movies):
-    movie_dict = {}
-    for item in movies:
-        movie_dict[item] = all_movies[item]
-    return get_top_x(5, movie_dict)
 
 def main():
     print('Loading data.  Please hold.')
     get_items()
     get_users()
     get_data()
-
+    print(find_similar_user(1))
 if __name__ == '__main__':
     main()

@@ -1,4 +1,5 @@
 import csv
+import math
 all_movies = {}
 all_users = {}
 
@@ -87,6 +88,19 @@ def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
     for key in all_users[user].ratings:
         del safe_dict[key]
     get_top_50(safe_dict)
+def euclidean_distance(v, w):
+    """Given two lists, give the Euclidean distance between them on a scale
+    of 0 to 1. 1 means the two lists are identical.
+    """
+
+    if len(v) is 0:
+        return 0
+    differences = [v[idx] - w[idx] for idx in range(len(v))]
+    squares = [diff ** 2 for diff in differences]
+    sum_of_squares = sum(squares)
+
+    return 1 / (1 + math.sqrt(sum_of_squares))
+
 
 def compare_users(user1, user2, all_users=all_users):
     user1_scores = []
@@ -95,4 +109,5 @@ def compare_users(user1, user2, all_users=all_users):
         if key in all_users[user2].ratings:
             user1_scores.append(all_users[user1].ratings[key])
             user2_scores.append(all_users[user2].ratings[key])
+    print(euclidean_distance(user1_scores,user2_scores))
 compare_users(5,6)

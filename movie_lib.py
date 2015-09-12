@@ -59,19 +59,23 @@ class User:
     def get_user_ratings(self):
         return self.ratings
 
-with open('u.item', encoding='latin_1') as f:
-    reader = csv.DictReader(f, fieldnames=['movie_id', 'movie_title'], delimiter='|')
-    for row in reader:
-        Movie(int(row['movie_id']), row['movie_title'])
-with open('u.user') as f:
-    reader = csv.DictReader(f, fieldnames=['user_id'], delimiter='|')
-    for row in reader:
-        User(int(row['user_id']))
+def get_items():
+    with open('u.item', encoding='latin_1') as f:
+        reader = csv.DictReader(f, fieldnames=['movie_id', 'movie_title'], delimiter='|')
+        for row in reader:
+            Movie(int(row['movie_id']), row['movie_title'])
 
-with open('u.data') as f:
-    reader = csv.DictReader(f, fieldnames=['user_id', 'movie_id', 'rating'], delimiter='\t')
-    for row in reader:
-        Rating(int(row['user_id']), int(row['movie_id']), int(row['rating']))
+def get_users():
+    with open('u.user') as f:
+        reader = csv.DictReader(f, fieldnames=['user_id'], delimiter='|')
+        for row in reader:
+            User(int(row['user_id']))
+
+def get_data():
+    with open('u.data') as f:
+        reader = csv.DictReader(f, fieldnames=['user_id', 'movie_id', 'rating'], delimiter='\t')
+        for row in reader:
+            Rating(int(row['user_id']), int(row['movie_id']), int(row['rating']))
 
 def get_top_50(all_movies=all_movies):
     top_movies = {}
@@ -88,7 +92,9 @@ def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
     for key in all_users[user].ratings:
         del safe_dict[key]
     get_top_50(safe_dict)
-def euclidean_distance(v, w):
+
+
+def euclidean_distance(v, w): #Formula copied from James Allen
     """Given two lists, give the Euclidean distance between them on a scale
     of 0 to 1. 1 means the two lists are identical.
     """
@@ -110,4 +116,13 @@ def compare_users(user1, user2, all_users=all_users):
             user1_scores.append(all_users[user1].ratings[key])
             user2_scores.append(all_users[user2].ratings[key])
     print(euclidean_distance(user1_scores,user2_scores))
-compare_users(5,6)
+
+def main():
+    print('Loading data.  Please hold.')
+    get_items()
+    get_users()
+    get_data()
+
+
+if __name__ == '__main__':
+    main()

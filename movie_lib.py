@@ -119,6 +119,15 @@ def compare_users(user1, user2, all_users=all_users):
         return 0
     return euclidean_distance(user1_scores,user2_scores)
 
+def get_unshared_movies(p_user, s_user, all_movies=all_movies):
+    '''takes a primary user and a secondary user.  Returns a list of movies that
+    the secondary user has seen but the primary user hasn't'''
+    s_user_list = []
+    for key in all_users[s_user].ratings:
+        if key not in all_users[p_user].ratings:
+            s_user_list.append(key)
+    return s_user_list
+
 
 def find_similar_user(user1, all_users=all_users):
     sim = 0
@@ -128,17 +137,15 @@ def find_similar_user(user1, all_users=all_users):
         elif compare_users(user1, user) > sim:
             sim = compare_users(user1, user)
             store_user = user
-    print(store_user, sim)
+    suggestion_list = get_unshared_movies(store_user, user1)
+    print(store_user, sim, suggestion_list)
+
 def main():
     print('Loading data.  Please hold.')
     get_items()
     get_users()
     get_data()
-    find_similar_user(37)
-    find_similar_user(38)
-    find_similar_user(101)
-    find_similar_user(1)
-    find_similar_user(69)
+
 
 if __name__ == '__main__':
     main()

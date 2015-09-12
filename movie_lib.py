@@ -1,6 +1,6 @@
 import csv
 import math
-from random import randint
+from random import randint, choice
 all_movies = {}
 all_users = {}
 
@@ -93,7 +93,6 @@ def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
         del safe_dict[key]
     print(get_top_x(50,safe_dict))
 
-
 def euclidean_distance(v, w): #Formula copied from James Allen
     """Given two lists, give the Euclidean distance between them on a scale
     of 0 to 1. 1 means the two lists are identical.
@@ -128,8 +127,8 @@ def get_unshared_movies(p_user, s_user, all_users=all_users):
             s_user_list.append(key)
     return s_user_list
 
-
 def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
+    '''Currently doesn't consider the chosen users taste.  Update that dummy!'''
     sim = 0
     for user in all_users:
         if user1 == user:

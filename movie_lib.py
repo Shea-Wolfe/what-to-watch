@@ -86,7 +86,6 @@ def get_top_x(num=50, all_movies=all_movies):
     top_movies = sorted(top_movies.items(), key=lambda c: c[1], reverse=True)
     return top_movies[:num]
 
-
 def get_user_suggest(user, all_movies=all_movies, all_users=all_users):
     safe_dict = all_movies.copy()
     for key in all_users[user].ratings:
@@ -127,7 +126,7 @@ def get_unshared_movies(p_user, s_user, all_users=all_users, all_movies=all_movi
     for key in all_users[s_user].ratings:
         if key not in all_users[p_user].ratings:
             s_user_movie_dict[key] = all_movies[key]
-    return s_user_movie_dict
+    return (s_user_movie_dict, s_user)
 
 def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
     '''Currently doesn't consider the chosen users taste.  Update that dummy!'''
@@ -138,6 +137,26 @@ def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
         elif compare_users(user1, user) > sim:
             sim = compare_users(user1, user)
             store_user = user
-    suggestion_list = get_unshared_movies(store_user, user1)
+    return get_unshared_movies(store_user, user1)
+
+def get_popular_movie(suggestion_list):
+    suggestion_list, none = suggestion_list
     movie_suggested = get_top_x(5, suggestion_list)
     return all_movies[movie_suggested[randint(0,4)][0]].title
+
+def get_user_fav_movie(suggestion_list, all_users=all_users):
+    suggestion_list, user = suggestion_list
+    new_dict = {}
+    for key in suggestion_list:
+        new_dict[key] = all_users[user].get_user_ratings()[key]
+    sorted_dict = sorted(new_dict.items(), key=lambda c: c[1], reverse=True)
+    sorted_dict = sorted_dict[:5]
+    return all_movies[sorted_dict[randint(0,4)][0]].title
+
+def main():
+    print('Loading data.  Please hold.')
+    get_items()
+    get_users()
+    get_data()
+    print(get_user_fav_movie(find_similar_user(1)))
+main()

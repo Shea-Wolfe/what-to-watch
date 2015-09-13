@@ -12,18 +12,19 @@ def main():
         if menu_choice == 1:
             number_of_movies()
         elif menu_choice == 2:
-            print(get_user_suggest(current_user))
+            print('{0}{1}{0}'.format(add_line(),get_user_suggest(current_user)))
         elif menu_choice == 3:
-            print(find_similar_user(current_user))
+            print('{0}{1}{0}'.format(add_line(),get_popular_movie(find_similar_user(current_user))))
         elif menu_choice == 4:
-            list_all_movies()
+            print('{0}{1}{0}'.format(add_line(),get_user_fav_movie(find_similar_user(current_user))))
         elif menu_choice == 5:
-            add_review(current_user)
+            list_all_movies()
         elif menu_choice == 6:
-            print(all_users[current_user].ratings)
+            add_review(current_user)
         elif menu_choice == 7:
+            print('{0}{1}{0}'.format(add_line(),all_users[current_user].ratings))
+        elif menu_choice == 8:
             break
-
 
 def get_user_id():
     current_user = input('Please enter your user ID number! 1-943 > ').lower()
@@ -47,17 +48,18 @@ def get_menu_choice():
     menu_choice = input('''\nPlease select your option from those below
     [1] Get a listing of top movies.
     [2] Get a movie recomendation.
-    [3] Get a recomendation from a similar user.
-    [4] View all the movies in the database.
-    [5] Add a new review.
-    [6] View your existing reviews.
-    [7] Exit the program.\n > ''')
+    [3] Get a popular recomendation from a similar user.
+    [4] Get a recomendation based on a similar user\'s favorites.
+    [5] View all the movies in the database.
+    [6] Add a new review.
+    [7] View your existing reviews.
+    [8] Exit the program.\n > ''')
     try:
         menu_choice = int(menu_choice)
     except:
         print('That is not number. Try again!')
         return get_menu_choice()
-    if menu_choice > 7 or menu_choice < 1:
+    if menu_choice > 8 or menu_choice < 1:
         print('That is not one of the options.  Try again!')
         return get_menu_choice()
     return menu_choice
@@ -111,6 +113,8 @@ def add_review(current_user):
                 elif score < 0 or score > 5:
                     print('Please enter a score from 1 to 5.')
 
+def add_line():
+    return '\n----------------------------------------\n'
 
 if __name__ == '__main__':
     main()

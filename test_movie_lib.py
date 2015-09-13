@@ -7,6 +7,9 @@ rating1 = Rating(will.id, movie1.id, 3)
 rating2 = Rating(will.id, movie2.id, 5)
 rating3 = Rating(steve.id, movie1.id, 4)
 rating4 = Rating(steve.id, movie2.id, 5)
+kelly = User(3)
+list1 = [1,2,3,4,5]
+list2 = [1,2,3,4,5]
 
 def test_user_creation():
     assert will.id == 1
@@ -19,7 +22,7 @@ def test_movie_creation():
     assert movie1.id != movie2.id
 
 def test_user_list():
-    assert all_users == {1:User(1),2:User(2)}
+    assert all_users == {1:User(1),2:User(2), 3:User(3)}
 
 def test_movie_list():
     assert all_movies == {15:Movie(15, 'The Matrix'), 20:Movie(20, 'Brick')}
@@ -39,8 +42,7 @@ def test_user_ratings():
 
 
 def test_get_rating():
-    #Should return a list of Rating objects
-    assert movie1.get_movie_ratings() == [3,4]
+    assert movie1.get_movie_ratings() == [4,3]
     assert movie2.get_movie_ratings() == [5,5]
 
 def test_get_average_rating():
@@ -51,3 +53,7 @@ def test_get_movie_title():
 
 def test_get_user_ratings():
     assert will.get_user_ratings() == {15:3,20:5}
+
+def test_euclidean_distance():
+    assert euclidean_distance(list1, list2) == 1
+    assert euclidean_distance([], [1,2,3,4,5]) == 0

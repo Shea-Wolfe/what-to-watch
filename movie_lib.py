@@ -141,13 +141,3 @@ def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
     suggestion_list = get_unshared_movies(store_user, user1)
     movie_suggested = get_top_x(5, suggestion_list)
     return all_movies[movie_suggested[randint(0,4)][0]].title
-
-
-def main():
-    print('Loading data.  Please hold.')
-    get_items()
-    get_users()
-    get_data()
-    print(find_similar_user(1))
-if __name__ == '__main__':
-    main()

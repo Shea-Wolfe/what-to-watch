@@ -14,16 +14,14 @@ def main():
         elif menu_choice == 2:
             print('{0}{1}{0}'.format(add_line(),get_user_suggest(current_user)))
         elif menu_choice == 3:
-            print('{0}{1}{0}'.format(add_line(),get_popular_movie(find_similar_user(current_user))))
+            print('{0}{1}{0}'.format(add_line(),store_user_picks(find_similar_user(current_user))))
         elif menu_choice == 4:
-            print('{0}{1}{0}'.format(add_line(),get_user_fav_movie(find_similar_user(current_user))))
-        elif menu_choice == 5:
             list_all_movies()
-        elif menu_choice == 6:
+        elif menu_choice == 5:
             add_review(current_user)
-        elif menu_choice == 7:
+        elif menu_choice == 6:
             print('{0}{1}{0}'.format(add_line(),all_users[current_user].ratings))
-        elif menu_choice == 8:
+        elif menu_choice == 7:
             break
 
 def get_user_id():
@@ -49,17 +47,16 @@ def get_menu_choice():
     [1] Get a listing of top movies.
     [2] Get a movie recomendation.
     [3] Get a popular recomendation from a similar user.
-    [4] Get a recomendation based on a similar user\'s favorites.
-    [5] View all the movies in the database.
-    [6] Add a new review.
-    [7] View your existing reviews.
-    [8] Exit the program.\n > ''')
+    [4] View all the movies in the database.
+    [5] Add a new review.
+    [6] View your existing reviews.
+    [7] Exit the program.\n > ''')
     try:
         menu_choice = int(menu_choice)
     except:
         print('That is not number. Try again!')
         return get_menu_choice()
-    if menu_choice > 8 or menu_choice < 1:
+    if menu_choice > 7 or menu_choice < 1:
         print('That is not one of the options.  Try again!')
         return get_menu_choice()
     return menu_choice

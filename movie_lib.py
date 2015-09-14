@@ -136,17 +136,19 @@ def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
             pass
         elif compare_users(user1, user) > sim:
             store_users.append((user, compare_users(user1, user)))
-    print(store_users)
-    store_users = sorted(store_users, key=lambda c: c[1], reverse=True)
-    print(store_users)
-    sorted_users = [user[0] for user in store_users]
-    print(sorted_users)
-    return get_unshared_movies(sorted_users[0], user1)
+    return (store_users, user1)
 
-def get_popular_movie(suggestion_list):
-    suggestion_list, none = suggestion_list
-    movie_suggested = get_top_x(5, suggestion_list)
-    return all_movies[movie_suggested[randint(0,4)][0]].title
+def store_user_picks(user_list, all_movies=all_movies):
+    user_list_split, user1 = user_list
+    movie_pick = []
+    test_weight = 0
+    for user in user_list_split:
+        un_weight = get_user_fav_movie(get_unshared_movies(user1, user[0]))
+        weight = all_movies[un_weight].get_average_rating() * user[1]
+        if weight > test_weight:
+            movie_pick = un_weight
+    return all_movies[movie_pick].title
+
 
 def get_user_fav_movie(suggestion_list, all_users=all_users):
     suggestion_list, user = suggestion_list
@@ -155,4 +157,12 @@ def get_user_fav_movie(suggestion_list, all_users=all_users):
         new_dict[key] = all_users[user].get_user_ratings()[key]
     sorted_dict = sorted(new_dict.items(), key=lambda c: c[1], reverse=True)
     sorted_dict = sorted_dict[:5]
-    return all_movies[sorted_dict[randint(0,4)][0]].title
+    return sorted_dict[randint(0,4)][0]
+def main():
+    get_items()
+    get_users()
+    get_data()
+    print(store_user_picks(find_similar_user(1)))
+
+if __name__ == '__main__':
+    main()

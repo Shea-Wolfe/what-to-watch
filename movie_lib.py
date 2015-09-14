@@ -149,7 +149,6 @@ def store_user_picks(user_list, all_movies=all_movies):
             movie_pick = un_weight
     return all_movies[movie_pick].title
 
-
 def get_user_fav_movie(suggestion_list, all_users=all_users):
     suggestion_list, user = suggestion_list
     new_dict = {}
@@ -158,11 +157,3 @@ def get_user_fav_movie(suggestion_list, all_users=all_users):
     sorted_dict = sorted(new_dict.items(), key=lambda c: c[1], reverse=True)
     sorted_dict = sorted_dict[:5]
     return sorted_dict[randint(0,4)][0]
-def main():
-    get_items()
-    get_users()
-    get_data()
-    print(store_user_picks(find_similar_user(1)))
-
-if __name__ == '__main__':
-    main()

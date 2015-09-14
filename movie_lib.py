@@ -134,8 +134,11 @@ def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
     for user in all_users:
         if user1 == user:
             pass
-        elif compare_users(user1, user) > sim:
+        elif compare_users(user1, user) >= sim:
             store_users.append((user, compare_users(user1, user)))
+    if store_users == []:
+        print('Those are some unique tastes you have there. Our recommendations will not be perfect for you sadly')
+        store_users = [(1, .25)]
     return (store_users, user1)
 
 def store_user_picks(user_list, all_movies=all_movies):

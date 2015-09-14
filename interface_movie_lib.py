@@ -29,6 +29,7 @@ def get_user_id():
     if current_user == 'jean valjean':
         print('You are prisioner 24601!')
         current_user = '24601'
+        User(24601)
     elif current_user == 'who is number 1?':
         print('You are, number 6')
         current_user = choice([1,6])

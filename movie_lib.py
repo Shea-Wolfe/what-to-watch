@@ -129,15 +129,19 @@ def get_unshared_movies(p_user, s_user, all_users=all_users, all_movies=all_movi
     return (s_user_movie_dict, s_user)
 
 def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
-    '''Currently doesn't consider the chosen users taste.  Update that dummy!'''
-    sim = 0
+    sim = 0.20
+    store_users = []
     for user in all_users:
         if user1 == user:
             pass
         elif compare_users(user1, user) > sim:
-            sim = compare_users(user1, user)
-            store_user = user
-    return get_unshared_movies(store_user, user1)
+            store_users.append((user, compare_users(user1, user)))
+    print(store_users)
+    store_users = sorted(store_users, key=lambda c: c[1], reverse=True)
+    print(store_users)
+    sorted_users = [user[0] for user in store_users]
+    print(sorted_users)
+    return get_unshared_movies(sorted_users[0], user1)
 
 def get_popular_movie(suggestion_list):
     suggestion_list, none = suggestion_list
@@ -152,11 +156,3 @@ def get_user_fav_movie(suggestion_list, all_users=all_users):
     sorted_dict = sorted(new_dict.items(), key=lambda c: c[1], reverse=True)
     sorted_dict = sorted_dict[:5]
     return all_movies[sorted_dict[randint(0,4)][0]].title
-
-def main():
-    print('Loading data.  Please hold.')
-    get_items()
-    get_users()
-    get_data()
-    print(get_user_fav_movie(find_similar_user(1)))
-main()

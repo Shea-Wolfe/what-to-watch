@@ -14,7 +14,7 @@ def main():
         elif menu_choice == 2:
             print('{0}{1}{0}'.format(add_line(),get_user_suggest(current_user)))
         elif menu_choice == 3:
-            print('{0}{1}{0}'.format(add_line(),store_user_picks(find_similar_user(current_user))))
+            print('{0}{1}{0}'.format(add_line(),similar_user_pick(find_similar_user(current_user))))
         elif menu_choice == 4:
             list_all_movies()
         elif menu_choice == 5:

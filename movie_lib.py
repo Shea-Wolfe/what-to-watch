@@ -141,7 +141,7 @@ def find_similar_user(user1, all_users=all_users, all_movies=all_movies):
         store_users = [(1, .25)]
     return (store_users, user1)
 
-def store_user_picks(user_list, all_movies=all_movies):
+def similar_user_pick(user_list, all_movies=all_movies):
     user_list_split, user1 = user_list
     movie_pick = []
     test_weight = 0
